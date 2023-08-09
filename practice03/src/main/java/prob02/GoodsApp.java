@@ -26,11 +26,6 @@ public class GoodsApp {
 					goods[i].getCount() + "개 입고 되었습니다.");
 		}
 
-		// 상품 입력
-
-		// 상품 출
-		
-		// 자원정리
 		scanner.close();
 	}
 }
