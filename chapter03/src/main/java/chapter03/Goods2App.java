@@ -12,11 +12,15 @@ public class Goods2App {
 		goods.name = "camera";
 		
 		//protected : 같은 패키지에서 접근이 가능하다
+		// 			  더 중요한 접근 제어는 자식에서 접근 가능
 //		goods.price = 10000;
 		
 		//디폴트는 같은 패키지에서 접근이 가능하다
 //		goods.countStock = 10;
-
+		
+		//private는 같은 클래스에서만 접근 가능하다
+//		goods.countSold = 20;
 	}
+
 
 }
