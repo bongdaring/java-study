@@ -17,7 +17,11 @@ public class TV {
 	}
 	
 	public void channel(boolean up) {
-		channel(this.channel + 1);
+		if(up) {
+			channel(this.channel + 1);
+			return;
+		} 
+		channel(this.channel - 1);
 	}
 	
 	public void channel(int channel) {
@@ -25,6 +29,8 @@ public class TV {
 		if(channel > 255) {
 			this.channel = 1;
 			return;
+		} else if(channel < 1) {
+			
 		}
 		this.channel = channel;
 	}
