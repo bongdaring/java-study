@@ -30,7 +30,8 @@ public class TV {
 			this.channel = 1;
 			return;
 		} else if(channel < 1) {
-			
+			this.channel = 255;
+			return;
 		}
 		this.channel = channel;
 	}
@@ -43,6 +44,9 @@ public class TV {
 		checkPower();
 		if(volume > 100) {
 			this.volume = 0;
+			return;
+		} else if(volume < 0) {
+			this.volume = 100;
 			return;
 		}
 		this.volume = volume;
