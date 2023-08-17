@@ -7,9 +7,9 @@ import java.util.Scanner;
 public class NSLookup {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		
-		while(true) {
-			try {
+
+		try {
+			while(true) {
 				System.out.print(">> ");
 				String line = scanner.nextLine();
 				
@@ -17,16 +17,17 @@ public class NSLookup {
 					break;
 				}
 				
-				InetAddress inetAddress = InetAddress.getLocalHost();
-				InetAddress[] inetAddresses = inetAddress.getAllByName(line);
-				for(InetAddress inetAddress2 : inetAddresses) {
+				InetAddress[] inetAddresses = InetAddress.getAllByName(line);
+				for(InetAddress inetAddress : inetAddresses) {
 					System.out.println(
-							line +":"+ inetAddress2.getHostAddress());
+							line +":"+ inetAddress.getHostAddress());
 				}
-				
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
 			}
+			
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} finally {
+			scanner.close();
 		}
 
 	}
