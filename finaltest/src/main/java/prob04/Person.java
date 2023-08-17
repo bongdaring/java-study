@@ -1,5 +1,6 @@
 package prob04;
 
+
 public class Person {
 	private static int numberOfPerson; // 전체 인구수
 	private int age;
