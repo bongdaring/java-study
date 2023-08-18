@@ -25,6 +25,7 @@ public class EchoClient {
 			socket.connect(new InetSocketAddress(SERVER_IP, EchoServer.PORT));
 			log("connected");
 			
+			//라인 연결
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
 		
@@ -57,7 +58,9 @@ public class EchoClient {
 				if(socket != null && !socket.isClosed()) {
 					socket.close();
 				}
-				
+				if(scanner != null) {
+					scanner.close();
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

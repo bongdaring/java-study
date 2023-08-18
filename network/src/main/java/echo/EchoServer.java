@@ -37,7 +37,7 @@ public class EchoServer {
 				while(true) {
 					String data = br.readLine();
 					if(data == null) {
-						log("[server] closed by client");
+						log("closed by client");
 						break;
 					}
 					
@@ -45,9 +45,9 @@ public class EchoServer {
 					pw.println(data);
 				}
 			} catch (SocketException e) {
-				log("[server] suddenly closed by client");
+				log("suddenly closed by client");
 			} catch (IOException e) {
-				log("[server] error : " + e);
+				log("error : " + e);
 			} finally {
 				try {
 					if(socket != null && !socket.isClosed()) {
@@ -59,7 +59,7 @@ public class EchoServer {
 			}
 			
 		} catch (IOException e) {
-			log("[server] error:" + e);
+			log("error:" + e);
 		} finally {
 			try {
 				if(serverSocket != null && serverSocket.isClosed()) {
