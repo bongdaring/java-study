@@ -1,13 +1,16 @@
 package httpd;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.file.Files;
 
 public class RequestHandler extends Thread {
+	private static final String DOCUMENT_ROOT_STRING = "./webapp";
 	private Socket socket;
 	
 	public RequestHandler( Socket socket ) {
@@ -46,28 +49,26 @@ public class RequestHandler extends Thread {
 					break;
 				}
 				
-				log(line);
+//				log(line);
+				
+				log(request);
 				
 				String[] tokens = request.split(" ");
+				log("1111");
 				if("GET".equals(tokens[0])) {
+					log("2222");
 					responseStaticResource(outputStream, tokens[1], tokens[2]);
 				} else {
 					// method:POST, PUT, DELETE, HEAD, CONNECT
 					// SimpleHttpServer에서는 무시(400 Bad Request)
-//					responseStatic400Error(outputStream, tokens[2]);
+					System.out.println("400 Bad Request:" + request);
+					responseStatic400Error(outputStream, tokens[2]);
+					
 				}
 				
 			}
 
 			log(request);
-			
-			
-			// 예제 응답입니다.
-			// 서버 시작과 테스트를 마친 후, 주석 처리 합니다.
-			outputStream.write( "HTTP/1.1 200 OK\r\n".getBytes( "UTF-8" ) );
-			outputStream.write( "Content-Type:text/html; charset=utf-8\r\n".getBytes( "UTF-8" ) );
-			outputStream.write( "\r\n".getBytes() );
-			outputStream.write( "<h1>이 페이지가 잘 보이면 실습과제 SimpleHttpServer를 시작할 준비가 된 것입니다.</h1>".getBytes( "UTF-8" ) );
 
 		} catch( Exception ex ) {
 			log( "error:" + ex );
@@ -84,9 +85,47 @@ public class RequestHandler extends Thread {
 		}			
 	}
 
+	private void responseStatic400Error(OutputStream outputStream, String string) {
+		// HTTP/1.1 400 Bad Request\r\n
+		// Content-Type:text/html; charset=utf-8\r\n
+		// \r\n
+		// error/400.html 내용
+		
+	}
+
 	private void responseStaticResource(
 			OutputStream outputStream, 
-			String url, String protocol) {
+			String url, String protocol) throws IOException{
+		
+		System.out.println("url : "+url);
+		// default(welcome) file
+		if("/".equals(url)) {
+			url = "/index.html";
+		}
+		
+		File file = new File(DOCUMENT_ROOT_STRING + url);
+		if(!file.exists()) {
+			System.out.println("404 File Not Found:" + url);
+			responseStatic404Error(outputStream, protocol);
+			return;
+		}
+		
+		// nio
+		byte[] body = Files.readAllBytes(file.toPath());
+		String contentType = Files.probeContentType(file.toPath());
+		
+		// 응답
+		outputStream.write("HTTP/1.1 200 OK\r\n".getBytes( "UTF-8" ) );
+		outputStream.write(("Content-Type:"+ contentType +"; charset=utf-8\r\n").getBytes( "UTF-8" ));
+		outputStream.write("\r\n".getBytes() );
+		outputStream.write(body);
+	}
+
+	private void responseStatic404Error(OutputStream outputStream, String protocol) {
+		// HTTP/1.1 404 File Not Found\r\n
+		// Content-Type:text/html; charset=utf-8\r\n
+		// \r\n
+		// error/404.html 내용
 		
 	}
 
