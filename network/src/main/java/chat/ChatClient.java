@@ -36,7 +36,7 @@ public class ChatClient {
 				
 				String checkJoin = br.readLine();
 				
-				// 닉네임 공백은 서버에서 처리
+				// 닉네임 공백은 서버에서 처리해보기
 				if("join:ok".equals(checkJoin)) {
 					log("채팅 서버 입장");
 					break;
@@ -52,7 +52,7 @@ public class ChatClient {
 				System.out.print(">>");
 				String input = scanner.nextLine();
 				
-				// 메시지 공백은 클라에서 처리
+				// 메시지 공백은 클라에서 처리해보기
 				if(input.isBlank()) {
 					System.out.println("공백 메시지 안됨");
 					continue;
